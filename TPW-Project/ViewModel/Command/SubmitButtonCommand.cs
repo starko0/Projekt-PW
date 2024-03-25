@@ -32,7 +32,14 @@ namespace TPW_Project.ViewModel.Command
 
         public override void Execute(object? parameter)
         {
-            simulationViewModel.StartButtonText = "dsa";
+            if (int.TryParse(simulationViewModel.SubmitInputText, out int amount))
+            {
+                simulationViewModel.GenerateBalls(amount);
+            }
+            else
+            {
+                // Tutaj bedzie komunikat o błedzie
+            }
         }
     }
 }

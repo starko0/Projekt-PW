@@ -1,22 +1,37 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
+using TPW_Project.Model;
 using TPW_Project.ViewModel.Command;
 
 namespace TPW_Project.ViewModel
 {
     public class SimulationViewModel : ViewModelBase
     {
+        private DispatcherTimer timer;
         public SimulationViewModel()
         {
-           
-
             StartButton = new StartButtonCommand(this);
             SubmitButton = new SubmitButtonCommand(this);
+
+            balls = new ObservableCollection<BallViewModel>();
 
             programStatusText = string.Empty;
             submitInputText = string.Empty;
             startButtonText = "Start";
             submitBasicTextVisibility = Visibility.Visible;
+            timer = new DispatcherTimer();
+
+            timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(5);
+            timer.Tick += (sender, e) =>
+            {
+                foreach (var ball in Balls)
+                {
+                    ball.Move();
+                }
+            };
         }
 
         //Komenda definiująca co ma robić guzik
@@ -79,7 +94,7 @@ namespace TPW_Project.ViewModel
             }
         }
 
-
+        //Widoczność tekstu w tle przy wprowadzaniu liczby kulek
         private Visibility submitBasicTextVisibility;
         public Visibility SubmitBasicTextVisibility
         {
@@ -89,6 +104,68 @@ namespace TPW_Project.ViewModel
                 submitBasicTextVisibility = value;
                 OnPropertyChanged(nameof(SubmitBasicTextVisibility));
             }
+        }
+
+        //Lista kulek
+        private ObservableCollection<BallViewModel> balls;
+        public ObservableCollection<BallViewModel> Balls
+        {
+            get { return balls; }
+            set
+            {
+                balls = value;
+                OnPropertyChanged(nameof(Balls));
+            }
+        }
+
+        //Tworzenie kulek
+        public void GenerateBalls(int amount)
+        {
+            Random random = new Random();
+
+            for (int i = 0; i < amount; i++)
+            {
+                int x, y;
+                do
+                {
+                    x = random.Next(0, 370);
+                    y = random.Next(0, 370);
+                } while (CheckCollision(x, y));
+
+                int speedX = random.Next(-5, 6);
+                int speedY = random.Next(-5, 6);
+
+                Ball ball = new Ball(x, y, speedX, speedY);
+                BallViewModel ballViewModel = new BallViewModel(ball);
+                Balls.Add(ballViewModel);
+            }
+        }
+
+        public void StartMovingBalls()
+        {
+            timer.Start();
+        }
+
+        public void StopMovingBalls()
+        {
+            if (timer != null && timer.IsEnabled)
+            {
+                timer.Stop();
+            }
+        }
+
+
+        private bool CheckCollision(int x, int y)
+        {
+            foreach (var existingBall in Balls)
+            {
+                double distance = Math.Sqrt(Math.Pow(existingBall.CoordinateX - x, 2) + Math.Pow(existingBall.CoordinateY - y, 2));
+                if (distance < 30)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
     }

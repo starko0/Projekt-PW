@@ -9,45 +9,17 @@ namespace TPW_Project.Model
     public class Ball
     {
 
-        private int coordinateX;
-
-        public int CoordinateX
-        {
-            get { return coordinateX; }
-            set { coordinateX = value; }
-        }
-
-        private int coordinateY;
-
-        public int CoordinateY
-        {
-            get { return coordinateY; }
-            set { coordinateY = value; }
-        }
-
-        private int speedX;
-
-        public int SpeedX
-        {
-            get { return speedX; }
-            set { speedX = value; }
-        }
-
-        private int speedY;
-
-        public int SpeedY
-        {
-            get { return speedY; }
-            set { speedY = value; }
-        }
-
-
+        public int CoordinateX {  get; set; }
+        public int CoordinateY {  get; set; }
+        public int SpeedX {  get; set; }
+        public int SpeedY {  get; set; }
+      
         public Ball(int x, int y, int speedX, int speedY)
         {
-            this.coordinateX = x;
-            this.coordinateY = y;
-            this.speedX = speedX;
-            this.speedY = speedY;
+            CoordinateX = x;
+            CoordinateY = y;
+            SpeedX = speedX;
+            SpeedY = speedY;
         }
     }
 }

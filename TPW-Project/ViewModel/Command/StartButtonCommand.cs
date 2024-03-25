@@ -21,11 +21,13 @@ namespace TPW_Project.ViewModel.Command
                 {
                     simulationViewModel.ProgramStatusText = "Simulation started";
                     simulationViewModel.StartButtonText = "Stop";
+                    simulationViewModel.StartMovingBalls();
                 }
                 else
                 {
                     simulationViewModel.ProgramStatusText = "Simulation stopped";
                     simulationViewModel.StartButtonText = "Start";
+                    simulationViewModel.StopMovingBalls();
                 }
             }
         
