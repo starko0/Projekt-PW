@@ -10,11 +10,18 @@ namespace TPW_Project.ViewModel.Command
     class SubmitButtonCommand : BasicCommand
     {
         private readonly SimulationViewModel simulationViewModel;
+        private object @object;
+
         public SubmitButtonCommand(SimulationViewModel simulationViewModel)
         {
             this.simulationViewModel = simulationViewModel;
             this.simulationViewModel.PropertyChanged += OnViewModelPropertyChanged;
 
+        }
+
+        public SubmitButtonCommand(object @object)
+        {
+            this.@object = @object;
         }
 
         private void OnViewModelPropertyChanged(object? sender, PropertyChangedEventArgs e)

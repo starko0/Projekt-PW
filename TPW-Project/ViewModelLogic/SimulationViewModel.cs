@@ -155,7 +155,7 @@ namespace TPW_Project.ViewModel
         }
 
 
-        private bool CheckCollision(int x, int y)
+        public bool CheckCollision(int x, int y)
         {
             foreach (var existingBall in Balls)
             {
