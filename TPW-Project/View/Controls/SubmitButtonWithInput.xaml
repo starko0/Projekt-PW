@@ -14,7 +14,7 @@
         <TextBlock VerticalAlignment="Center" Foreground="LightGray"
                    Visibility="{Binding SubmitBasicTextVisibility}" 
                    Text="Enter the number of balls:" Margin="3 0" FontSize="16" Panel.ZIndex="-1"/>
-        
+
         <Button  Content="Submit" Background="Transparent"
                 BorderThickness="0" HorizontalAlignment="Right" VerticalAlignment="Center"
                 Margin="3 0" FontSize="16" Foreground="Black" Command="{Binding SubmitButton}"/>

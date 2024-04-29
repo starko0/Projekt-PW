@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace TPW_Project.ViewModel.Command
 {
@@ -37,15 +38,21 @@ namespace TPW_Project.ViewModel.Command
             return !string.IsNullOrEmpty(simulationViewModel.SubmitInputText) && base.CanExecute(parameter);
         }
 
+        private bool hasExecuted = false; // Pole do śledzenia, czy metoda Execute została już wykonana
+
         public override void Execute(object? parameter)
         {
-            if (int.TryParse(simulationViewModel.SubmitInputText, out int amount))
+            if (!hasExecuted) // Sprawdzamy, czy metoda Execute nie została jeszcze wykonana
             {
-                simulationViewModel.GenerateBalls(amount);
-            }
-            else
-            {
-                // Tutaj bedzie komunikat o błedzie
+                if (int.TryParse(simulationViewModel.SubmitInputText, out int amount))
+                {
+                    simulationViewModel.BallList.GenerateBalls(amount);
+                    hasExecuted = true; // Ustawiamy flagę na true po wykonaniu metody Execute
+                }
+                else
+                {
+                    // Tutaj będzie komunikat o błędzie
+                }
             }
         }
     }

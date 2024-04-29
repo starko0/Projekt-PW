@@ -15,20 +15,22 @@ namespace TPW_Project.ViewModel.Command
         {
             this.simulationViewModel = simulationViewModel;
         }
-        public override void Execute(object? parameter)
+        public override async void Execute(object? parameter)
         {
                 if(simulationViewModel.StartButtonText == "Start")
                 {
                     simulationViewModel.ProgramStatusText = "Simulation started";
                     simulationViewModel.StartButtonText = "Stop";
-                    simulationViewModel.StartMovingBalls();
-                }
+                    simulationViewModel.IsSimulationRunning = true;
+                    await simulationViewModel.MoveBallsAsync();
+            }
                 else
                 {
                     simulationViewModel.ProgramStatusText = "Simulation stopped";
                     simulationViewModel.StartButtonText = "Start";
-                    simulationViewModel.StopMovingBalls();
-                }
+                    simulationViewModel.IsSimulationRunning = false;
+                    await simulationViewModel.MoveBallsAsync();
+            }
             }
         
     }

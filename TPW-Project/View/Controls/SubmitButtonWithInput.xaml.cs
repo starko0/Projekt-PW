@@ -53,7 +53,7 @@ namespace TPW_Project.View.Controls
 
             if (!string.IsNullOrEmpty(newText))
             {
-                if (!int.TryParse(newText, out int number) || number < 1 || number > 10)
+                if (!int.TryParse(newText, out int number) || number < 1 || number > 5)
                 {
                     e.Handled = true;
                     return;

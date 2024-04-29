@@ -4,35 +4,63 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using TPW_Project.Model;
 using TPW_Project.ViewModel.Command;
+using TPW_Project.ViewModelLogic;
 
 namespace TPW_Project.ViewModel
 {
     public class SimulationViewModel : ViewModelBase
     {
         private DispatcherTimer timer;
+
         public SimulationViewModel()
         {
             StartButton = new StartButtonCommand(this);
             SubmitButton = new SubmitButtonCommand(this);
 
-            balls = new ObservableCollection<BallViewModel>();
+            BallList = new BallListViewModel();
 
             programStatusText = string.Empty;
             submitInputText = string.Empty;
             startButtonText = "Start";
             submitBasicTextVisibility = Visibility.Visible;
-            timer = new DispatcherTimer();
-
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(5);
-            timer.Tick += (sender, e) =>
-            {
-                foreach (var ball in Balls)
-                {
-                    ball.Move();
-                }
-            };
         }
+
+        public bool IsSimulationRunning { get; set; }
+
+        public async Task MoveBallsAsync()
+        {
+            while (IsSimulationRunning)
+            {
+                await Task.Run(() =>
+                {
+                    Parallel.ForEach(BallList.Balls, ball =>
+                    {
+                        
+                            ball.Move();
+                        
+                    });
+                });
+
+                await Task.Run(() =>
+                {
+                    var result = BallList.CheckCollisionBetweenBalls();
+
+                    Parallel.ForEach(result, innerList =>
+                    {
+                        lock (innerList)
+                        {
+                            BallList.reactionOnCollision(innerList);
+                        }
+                    });
+                });
+
+                await Task.Delay(25); // Oczekiwanie asynchroniczne na kolejną iterację
+            }
+        }
+
+
+
+        public BallListViewModel BallList { get; }
 
         //Komenda definiująca co ma robić guzik
         public ICommand StartButton { get; }
@@ -106,41 +134,6 @@ namespace TPW_Project.ViewModel
             }
         }
 
-        //Lista kulek
-        private ObservableCollection<BallViewModel> balls;
-        public ObservableCollection<BallViewModel> Balls
-        {
-            get { return balls; }
-            set
-            {
-                balls = value;
-                OnPropertyChanged(nameof(Balls));
-            }
-        }
-
-        //Tworzenie kulek
-        public void GenerateBalls(int amount)
-        {
-            Random random = new Random();
-
-            for (int i = 0; i < amount; i++)
-            {
-                int x, y;
-                do
-                {
-                    x = random.Next(0, 370);
-                    y = random.Next(0, 370);
-                } while (CheckCollision(x, y));
-
-                int speedX = random.Next(-5, 6);
-                int speedY = random.Next(-5, 6);
-
-                Ball ball = new Ball(x, y, speedX, speedY);
-                BallViewModel ballViewModel = new BallViewModel(ball);
-                Balls.Add(ballViewModel);
-            }
-        }
-
         public void StartMovingBalls()
         {
             timer.Start();
@@ -152,20 +145,6 @@ namespace TPW_Project.ViewModel
             {
                 timer.Stop();
             }
-        }
-
-
-        public bool CheckCollision(int x, int y)
-        {
-            foreach (var existingBall in Balls)
-            {
-                double distance = Math.Sqrt(Math.Pow(existingBall.CoordinateX - x, 2) + Math.Pow(existingBall.CoordinateY - y, 2));
-                if (distance < 30)
-                {
-                    return true;
-                }
-            }
-            return false;
         }
 
     }
