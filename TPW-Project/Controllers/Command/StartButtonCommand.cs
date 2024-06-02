@@ -10,8 +10,9 @@ namespace TPW_Project.ViewModel.Command
 {
     public class StartButtonCommand : BasicCommand
     {
-        private readonly SimulationViewModel simulationViewModel;
-        public StartButtonCommand(SimulationViewModel simulationViewModel) 
+        private readonly SimualtionController simulationViewModel;
+
+        public StartButtonCommand(SimualtionController simulationViewModel) 
         {
             this.simulationViewModel = simulationViewModel;
         }
@@ -23,6 +24,8 @@ namespace TPW_Project.ViewModel.Command
                     simulationViewModel.StartButtonText = "Stop";
                     simulationViewModel.IsSimulationRunning = true;
                     await simulationViewModel.MoveBallsAsync();
+                    
+                    
             }
                 else
                 {

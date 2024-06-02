@@ -2,13 +2,13 @@
 
 namespace TPW_Project.ViewModel
 {
-    public class BallViewModel : ViewModelBase
+    public class BallController : ViewController
     {
         private readonly Ball ball;
         private readonly int canvasWidth = 400;
         private readonly int canvasHeight = 400;
 
-        public BallViewModel(Ball ball)
+        public BallController(Ball ball)
         {
             this.ball = ball;
         }

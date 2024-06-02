@@ -2,22 +2,24 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
+using TPW_Project.Controllers;
 using TPW_Project.Model;
 using TPW_Project.ViewModel.Command;
 using TPW_Project.ViewModelLogic;
 
 namespace TPW_Project.ViewModel
 {
-    public class SimulationViewModel : ViewModelBase
+    public class SimualtionController : ViewController
     {
         private DispatcherTimer timer;
 
-        public SimulationViewModel()
+        public SimualtionController()
         {
             StartButton = new StartButtonCommand(this);
             SubmitButton = new SubmitButtonCommand(this);
 
-            BallList = new BallListViewModel();
+            BallList = new BallListController();
+            logController = new LoggingController(BallList);
 
             programStatusText = string.Empty;
             submitInputText = string.Empty;
@@ -35,11 +37,14 @@ namespace TPW_Project.ViewModel
                 {
                     Parallel.ForEach(BallList.Balls, ball =>
                     {
-                        
                             ball.Move();
-                        
                     });
                 });
+
+                //await Task.Run(() =>
+                //{
+                //    logController.LogBallList(BallList);
+                //});
 
                 await Task.Run(() =>
                 {
@@ -57,10 +62,9 @@ namespace TPW_Project.ViewModel
                 await Task.Delay(25); // Oczekiwanie asynchroniczne na kolejną iterację
             }
         }
+        public BallListController BallList { get; }
 
-
-
-        public BallListViewModel BallList { get; }
+        public LoggingController logController;
 
         //Komenda definiująca co ma robić guzik
         public ICommand StartButton { get; }

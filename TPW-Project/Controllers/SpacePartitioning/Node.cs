@@ -10,11 +10,11 @@ namespace TPW_Project.ViewModelLogic.SpacePartitioning
 {
     public class Node
     {
-        public List<BallViewModel> Balls { get; set; }
+        public List<BallController> Balls { get; set; }
 
         public int Depth { get; set; }
 
-        public Node(ObservableCollection<BallViewModel> balls, int depth = 0)
+        public Node(ObservableCollection<BallController> balls, int depth = 0)
         {
             this.Balls = balls.ToList();
             this.Depth = depth;

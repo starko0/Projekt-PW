@@ -14,7 +14,7 @@ namespace TPW_Project.ViewModelLogic.SpacePartitioning
         public Node Root { get; set; }
 
 
-        public Partitioner(ObservableCollection<BallViewModel> balls)
+        public Partitioner(ObservableCollection<BallController> balls)
         {
             Root = new Node(balls);
         }
@@ -93,8 +93,8 @@ namespace TPW_Project.ViewModelLogic.SpacePartitioning
                 Console.WriteLine(avarage + "Mediana");
 
 
-                leftNode = new Node(new ObservableCollection<BallViewModel>(), ++root.Depth);
-                rightNode = new Node(new ObservableCollection<BallViewModel>(), root.Depth);
+                leftNode = new Node(new ObservableCollection<BallController>(), ++root.Depth);
+                rightNode = new Node(new ObservableCollection<BallController>(), root.Depth);
 
                 foreach (var ball in root.Balls)
                 {

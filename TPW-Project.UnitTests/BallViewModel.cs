@@ -12,7 +12,7 @@ namespace TPW_Project.Tests
         public void MoveWithinBoundsShouldUpdateCoordinatesTest()
         {
             var ball = new Ball(100, 100, 10, 10);
-            var viewModel = new BallViewModel(ball);
+            var viewModel = new BallController(ball);
 
             viewModel.Move();
 
@@ -24,7 +24,7 @@ namespace TPW_Project.Tests
         public void MoveHitsHorizontalBoundaryShouldReverseSpeedXTest()
         { 
             var ball = new Ball(365, 100, 10, 0); 
-            var viewModel = new BallViewModel(ball);
+            var viewModel = new BallController(ball);
 
             viewModel.Move();
 
@@ -35,7 +35,7 @@ namespace TPW_Project.Tests
         public void MoveHitsVerticalBoundaryShouldReverseSpeedYTest()
         { 
             var ball = new Ball(100, 365, 0, 10); 
-            var viewModel = new BallViewModel(ball);
+            var viewModel = new BallController(ball);
 
             viewModel.Move();
 
@@ -46,7 +46,7 @@ namespace TPW_Project.Tests
         public void MoveHitsLeftBoundaryShouldReverseSpeedXTest()
         {
             var ball = new Ball(0, 100, -10, 0); 
-            var viewModel = new BallViewModel(ball);
+            var viewModel = new BallController(ball);
 
             viewModel.Move();
 
@@ -57,7 +57,7 @@ namespace TPW_Project.Tests
         public void MoveHitsTopBoundaryShouldReverseSpeedYTest()
         { 
             var ball = new Ball(100, 0, 0, -10); 
-            var viewModel = new BallViewModel(ball);
+            var viewModel = new BallController(ball);
             
             viewModel.Move();
 

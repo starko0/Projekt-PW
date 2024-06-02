@@ -9,6 +9,7 @@ namespace TPW_Project.Model
 {
     public class Ball
     {
+        public int Id { get; set; }
         public double Weight { get; set; }
         public double Radius { get; set; }
         public double CoordinateX { get; set; }
@@ -20,6 +21,16 @@ namespace TPW_Project.Model
 
         public Ball(double x, double y, double speedX, double speedY, double weight, double radius)
         {
+            CoordinateX = x;
+            CoordinateY = y;
+            SpeedX = speedX;
+            SpeedY = speedY;
+            Weight = weight;
+            Radius = radius;
+        }
+        public Ball(int id,double x, double y, double speedX, double speedY, double weight, double radius)
+        {
+            Id = id;
             CoordinateX = x;
             CoordinateY = y;
             SpeedX = speedX;

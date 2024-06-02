@@ -12,10 +12,10 @@ using TPW_Project.ViewModelLogic.SpacePartitioning;
 
 namespace TPW_Project.ViewModelLogic
 {
-    public class BallListViewModel : ViewModelBase
+    public class BallListController : ViewController
     {
-        private ObservableCollection<BallViewModel> balls;
-        public ObservableCollection<BallViewModel> Balls
+        private ObservableCollection<BallController> balls;
+        public ObservableCollection<BallController> Balls
         {
             get { return balls; }
             set
@@ -25,9 +25,9 @@ namespace TPW_Project.ViewModelLogic
             }
         }
 
-        public BallListViewModel()
+        public BallListController()
         {
-            Balls = new ObservableCollection<BallViewModel>();
+            Balls = new ObservableCollection<BallController>();
         }
 
         public void GenerateBalls(int amount)
@@ -48,8 +48,8 @@ namespace TPW_Project.ViewModelLogic
 
                 } while (CheckCollisionDuringGeneretingBalls(x, y, r));
 
-                Ball ball = new Ball(x, y, speedX, speedY, r / 10, r);
-                BallViewModel ballViewModel = new BallViewModel(ball);
+                Ball ball = new Ball(i, x, y, speedX, speedY, r / 10, r);
+                BallController ballViewModel = new BallController(ball);
                 Balls.Add(ballViewModel);
             }
         }

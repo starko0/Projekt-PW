@@ -10,10 +10,10 @@ namespace TPW_Project.Tests
         [Test]
         public void ConstructorTest()
         {
-            int initialX = 10;
-            int initialY = 20;
-            int initialSpeedX = 5;
-            int initialSpeedY = -5;
+            double initialX = 10;
+            double initialY = 20;
+            double initialSpeedX = 5;
+            double initialSpeedY = -5;
 
             Ball ball = new Ball(initialX, initialY, initialSpeedX, initialSpeedY);
 

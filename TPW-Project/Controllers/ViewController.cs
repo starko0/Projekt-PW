@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TPW_Project.ViewModel
 {
-    public class ViewModelBase : INotifyPropertyChanged
+    public class ViewController : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -15,7 +15,7 @@ namespace TPW_Project
 
             MainWindow = new MainWindow()
             {
-                DataContext = new MainViewModel()
+                DataContext = new MainController()
             };
 
             MainWindow.Show();
