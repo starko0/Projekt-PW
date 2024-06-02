@@ -41,10 +41,10 @@ namespace TPW_Project.ViewModel
                     });
                 });
 
-                //await Task.Run(() =>
-                //{
-                //    logController.LogBallList(BallList);
-                //});
+                await Task.Run(() =>
+                {
+                    logController.LogBallList(BallList);
+                });
 
                 await Task.Run(() =>
                 {
@@ -150,6 +150,5 @@ namespace TPW_Project.ViewModel
                 timer.Stop();
             }
         }
-
     }
 }
