@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
-using TPW_Project.Controllers;
 using TPW_Project.Model;
 using TPW_Project.ViewModel.Command;
 using TPW_Project.ViewModelLogic;
@@ -19,7 +18,7 @@ namespace TPW_Project.ViewModel
             SubmitButton = new SubmitButtonCommand(this);
 
             BallList = new BallListController();
-            logController = new LoggingController(BallList);
+            logController = new LoggingController(BallList, 10);
 
             programStatusText = string.Empty;
             submitInputText = string.Empty;
@@ -29,7 +28,12 @@ namespace TPW_Project.ViewModel
 
         public bool IsSimulationRunning { get; set; }
 
-        public async Task MoveBallsAsync()
+        
+    public async Task MoveBallsAsync()
+    {
+        var logController = new LoggingController(BallList, 10);
+
+        try
         {
             while (IsSimulationRunning)
             {
@@ -37,19 +41,13 @@ namespace TPW_Project.ViewModel
                 {
                     Parallel.ForEach(BallList.Balls, ball =>
                     {
-                            ball.Move();
+                        ball.Move();
                     });
                 });
 
                 await Task.Run(() =>
                 {
-                    logController.LogBallList(BallList);
-                });
-
-                await Task.Run(() =>
-                {
                     var result = BallList.CheckCollisionBetweenBalls();
-
                     Parallel.ForEach(result, innerList =>
                     {
                         lock (innerList)
@@ -59,10 +57,16 @@ namespace TPW_Project.ViewModel
                     });
                 });
 
-                await Task.Delay(25); // Oczekiwanie asynchroniczne na kolejną iterację
+                await Task.Delay(25); // Asynchronous wait for the next iteration
             }
         }
-        public BallListController BallList { get; }
+        finally
+        {
+            logController.StopLogging(); // Ensure the logging stops when the simulation stops
+        }
+    }
+
+    public BallListController BallList { get; }
 
         public LoggingController logController;
 
